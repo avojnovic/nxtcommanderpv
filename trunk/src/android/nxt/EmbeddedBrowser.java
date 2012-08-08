@@ -194,6 +194,15 @@ public class EmbeddedBrowser extends Activity implements BTConnectable
 		return connected;
 	}
 
+	public void actionButtonPressed()
+	{
+		if (myBTCommunicator != null)
+		{			
+			sendBTCmessage(BTCommunicator.NO_DELAY, motorAction, 75 * directionAction, 0);
+			sendBTCmessage(500, motorAction, -75 * directionAction, 0);
+			sendBTCmessage(1000, motorAction, 0, 0);
+		}
+	}
 	
 	public void updateMotorControl(int left, int right)
 	{
@@ -585,6 +594,11 @@ public class EmbeddedBrowser extends Activity implements BTConnectable
 	public void stop()	
 	{
 		updateMotorControl(0, 0);
+	}
+	
+	public void shoot()	
+	{
+		actionButtonPressed();
 	}
 
 	
