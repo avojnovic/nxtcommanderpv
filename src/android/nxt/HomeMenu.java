@@ -21,6 +21,7 @@ package android.nxt;
 import android.nxt.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.view.Menu;
@@ -35,6 +36,7 @@ public class HomeMenu extends Activity
 
 	public static void quitApplication()
 	{
+	
 		if (NXTCommander.isBtOnByUs())
 		{
 			BluetoothAdapter.getDefaultAdapter().disable();
@@ -50,8 +52,8 @@ public class HomeMenu extends Activity
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
-	{
-		super.onCreate(savedInstanceState);
+	{				
+		super.onCreate(savedInstanceState);		
 		
 		getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		homeMenuView = new HomeMenuView(getApplicationContext(), this);

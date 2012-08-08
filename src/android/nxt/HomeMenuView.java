@@ -18,10 +18,10 @@
 
 package android.nxt;
 
-import android.nxt.R;
-
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -36,7 +36,7 @@ public class HomeMenuView extends View
 
 	int mScreenWidth;
 	int mScreenHeight;
-	
+
 	int startButtonYStart;
 	int tutorialButtonYStart;
 	Activity homeMenuActivity;
@@ -52,17 +52,16 @@ public class HomeMenuView extends View
 		res = context.getResources();
 	}
 
-
 	private float getStartYPos()
 	{
-		return mScreenHeight - ic_splash_start.getHeight() -10;
+		return mScreenHeight - ic_splash_start.getHeight() - 10;
 	}
-	
+
 	private float getStartXPos()
 	{
-		return mScreenWidth - ic_splash_start.getWidth() -10;
+		return mScreenWidth - ic_splash_start.getWidth() - 10;
 	}
-	
+
 	public float getStartButtonYPos(float divider)
 	{
 		return (ic_splash_start.getHeight() + (divider * 3));
@@ -72,9 +71,9 @@ public class HomeMenuView extends View
 	protected void onDraw(Canvas canvas)
 	{
 		super.onDraw(canvas);
-		
-		canvas.drawBitmap(mBackgroundImage, 0, 0, null);			
-		canvas.drawBitmap(ic_splash_start, getStartXPos(), getStartYPos() , null);				
+
+		canvas.drawBitmap(mBackgroundImage, 0, 0, null);
+		canvas.drawBitmap(ic_splash_start, getStartXPos(), getStartYPos(), null);
 	}
 
 	@Override
@@ -83,7 +82,7 @@ public class HomeMenuView extends View
 		mScreenHeight = h;
 		mScreenWidth = w;
 		setupBitmaps();
-		
+
 		invalidate();
 
 	}
@@ -93,21 +92,41 @@ public class HomeMenuView extends View
 	{
 		if (event.getAction() == MotionEvent.ACTION_DOWN)
 		{
-			if (event.getY() > getStartYPos() && event.getY() <= getStartYPos() + ic_splash_start.getHeight()
-					&& event.getX() > getStartXPos() && event.getX() <= getStartXPos() + ic_splash_start.getWidth())
+			if (event.getY() > getStartYPos() && event.getY() <= getStartYPos() + ic_splash_start.getHeight() && event.getX() > getStartXPos()
+					&& event.getX() <= getStartXPos() + ic_splash_start.getWidth())
 			{
-//				Intent playGame = new Intent(homeMenuActivity.getBaseContext(), NXTCommander.class);
-//				homeMenuActivity.startActivity(playGame);
-				
-				Intent intent = new Intent(homeMenuActivity.getBaseContext(), EmbeddedBrowser.class);
-				homeMenuActivity.startActivity(intent);
-				
+				new AlertDialog.Builder(homeMenuActivity)
+				.setIcon(android.R.drawable.ic_dialog_alert)
+				.setTitle("Closing Activity")
+				.setMessage("¿Desea ejecutar en modo INTERNET?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						Intent intent = new Intent(homeMenuActivity.getBaseContext(), EmbeddedBrowser.class);
+						homeMenuActivity.startActivity(intent);
+					}
+
+				})
+				.setNegativeButton("No", new DialogInterface.OnClickListener()
+				{
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						Intent playGame = new Intent(homeMenuActivity.getBaseContext(), NXTCommander.class);
+						homeMenuActivity.startActivity(playGame);
+					}
+
+				})
+				.show();
+
 			}
 		}
 		return true;
 	}
-	
-	public void showToast(String toast)	
+
+	public void showToast(String toast)
 	{
 		Toast.makeText(this.getContext(), toast, Toast.LENGTH_SHORT).show();
 	}
@@ -115,7 +134,7 @@ public class HomeMenuView extends View
 	private void setupBitmaps()
 	{
 		ic_splash_start = BitmapFactory.decodeResource(res, R.drawable.ic_splash_start);
-		ic_splash_start = Bitmap.createScaledBitmap(ic_splash_start, ic_splash_start.getWidth(), ic_splash_start.getHeight(), true);		
+		ic_splash_start = Bitmap.createScaledBitmap(ic_splash_start, ic_splash_start.getWidth(), ic_splash_start.getHeight(), true);
 
 		mBackgroundImage = BitmapFactory.decodeResource(res, R.drawable.background_1);
 		mBackgroundImage = Bitmap.createScaledBitmap(mBackgroundImage, mScreenWidth, mScreenHeight, true);
