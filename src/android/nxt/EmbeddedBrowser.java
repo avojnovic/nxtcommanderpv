@@ -17,10 +17,10 @@ import android.os.Vibrator;
 import android.speech.tts.TextToSpeech;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
-
 
 
 
@@ -57,6 +57,8 @@ public class EmbeddedBrowser extends Activity implements BTConnectable
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.browser);				
