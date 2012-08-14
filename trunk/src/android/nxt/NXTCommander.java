@@ -1,20 +1,3 @@
-/**
- * Copyright 2010, 2011 Guenther Hoelzl, Shawn Brown
- *
- * This file is part of MINDdroid.
- *
- * MINDdroid is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * MINDdroid is distributed in the hope that it will be useful, but WITHOUT ANY
- * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
- * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along with
- * MINDdroid. If not, see <http://www.gnu.org/licenses/>.
- **/
 
 package android.nxt;
 
@@ -34,6 +17,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -45,12 +29,7 @@ import java.util.Locale;
 
 import android.nxt.R;
 
-/**
- * This class is for talking to a LEGO NXT robot and controlling it via
- * bluetooth and the built in acceleration sensor. The communciation to the
- * robot is done via LCP (LEGO communication protocol), so no special software
- * has to be installed on the robot.
- */
+
 public class NXTCommander extends Activity implements BTConnectable, TextToSpeech.OnInitListener
 {
 
@@ -142,6 +121,9 @@ public class NXTCommander extends Activity implements BTConnectable, TextToSpeec
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		
+		this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		
 		thisActivity = this;
 		//mRobotType = this.getIntent().getIntExtra(SplashMenu.MINDDROID_ROBOT_TYPE, R.id.robot_type_1);
 		setUpByType();
